@@ -1,0 +1,10 @@
+dotfiles:
+  dependenciesBrew:
+    - bash-completion
+    - ack
+    - links
+    - tmux
+    - tmux-cssh
+    - rlwrap
+  dependenciesGem:
+    - i2cssh

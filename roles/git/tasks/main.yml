@@ -1,0 +1,38 @@
+---
+- name: Install useful desktop tools (brew)
+  homebrew: name={{ item }} state=present
+  with_items: "{{ git.dependenciesBrew }}"
+  when: ansible_pkg_mgr == "homebrew"
+  tags:
+    - tools
+    - git
+
+- name: Copy git dotfiles
+  copy: src={{ item }} dest={{ ansible_user_dir }}/.{{ item | basename }}
+  with_fileglob:
+    - ./dotfiles/*
+  tags:
+    - git
+
+- name: Ensure ~/bin folder exists
+  file: path={{ ansible_user_dir}}/bin state=directory
+  tags:
+    - git
+
+- name: Copy bin/ files
+  copy: src={{ item }} dest={{ ansible_user_dir }}/bin/{{ item | basename }} mode=ug+rwx,o+rx
+  with_fileglob:
+    - ./bin/*
+  tags:
+    - git
+
+- name: Create symlinks in bin folder
+  file: src={{ item.src }} dest={{ item.dest }} state=link
+  with_items: "{{ git.links }}"
+  tags:
+    - git
+
+- name: Create .gitconfig file
+  template: src=gitconfig.j2 dest={{ ansible_user_dir}}/.gitconfig
+  tags:
+    - git

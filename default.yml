@@ -1,0 +1,4 @@
+# default Playbook to bring in several to produce the final result
+---
+- include: base.yml
+- include: desktop.yml

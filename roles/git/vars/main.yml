@@ -1,0 +1,13 @@
+git:
+    user:
+        name: Alexander J. V. White
+        email: git@ajvwhite.com
+        github:
+            username: ajvwhite
+    dependenciesBrew:
+      - git
+      - git-flow-avh
+      - git-standup
+      - git-quick-stats
+    links:
+      - { src: '{{ ansible_user_dir }}/bin/gn', dest: '{{ ansible_user_dir }}/bin/gn.py' }

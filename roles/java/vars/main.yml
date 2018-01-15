@@ -1,0 +1,11 @@
+java:
+  dependencies:
+    - jenv
+    - gradle
+    - maven
+    - groovy
+jenv:
+  plugins:
+    - maven
+    - gradle
+    - groovy

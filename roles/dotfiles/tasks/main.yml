@@ -1,0 +1,100 @@
+---
+- name: Check if ~/.profile exists
+  stat:
+    path: "{{ ansible_user_dir }}/.profile"
+  register: stat_profile
+  tags:
+    - files
+    - dotfiles
+
+- name: Backing up existing ~/.profile
+  copy: src={{ ansible_user_dir }}/.profile dest={{ ansible_user_dir }}/.profile.orig
+  when: stat_profile.stat.exists == True
+  tags:
+    - files
+    - dotfiles
+
+- name: Check if ~/.bashrc exists
+  stat:
+    path: "{{ ansible_user_dir }}/.bashrc"
+  register: stat_bashrc
+  tags:
+    - files
+    - dotfiles
+
+- name: Backing up existing ~/.bashrc
+  copy: src={{ ansible_user_dir }}/.bashrc dest={{ ansible_user_dir }}/.bashrc.orig
+  when: stat_bashrc.stat.exists == True
+  tags:
+    - files
+    - dotfiles
+
+- name: Check if ~/.bash_profile exists
+  stat:
+    path: "{{ ansible_user_dir }}/.bash_profile"
+  register: stat_bash_profile
+  tags:
+    - files
+    - dotfiles
+
+- name: Backing up existing ~/.bash_profile
+  copy: src={{ ansible_user_dir }}/.bash_profile dest={{ ansible_user_dir }}/.bash_profile.orig
+  when: stat_bash_profile.stat.exists == True
+  tags:
+    - files
+    - dotfiles
+
+- name: Blind copying dotfile set
+  copy: src={{ item }} dest={{ ansible_user_dir }}/.{{ item | basename }}
+  with_fileglob:
+    - ./dotfiles/*
+  tags:
+    - files
+    - dotfiles
+
+- name: Ensure ~/bin folder exists
+  file: path={{ ansible_user_dir}}/bin state=directory
+  tags:
+    - directorysetup
+    - files
+    - binfiles
+
+- name: Ensure ~/dev-projects folder exists
+  file: path={{ ansible_user_dir}}/dev-projects state=directory
+  tags:
+    - directorysetup
+
+- name: Copy bin/ files
+  copy: src={{ item }} dest={{ ansible_user_dir }}/bin/{{ item | basename }} mode=ug+rwx,o+rx
+  with_fileglob:
+    - ./bin/*
+  tags:
+    - files
+    - binfiles
+
+- name: Copy dotfiles files with template
+  template: src="path_exports.j2" dest={{ ansible_user_dir }}/.path_exports
+  tags:
+    - files
+    - dotfiles
+
+- name: Install reattach-to-user-namespace --wrap-pbcopy-and-pbpaste
+  homebrew: name="reattach-to-user-namespace" install_options="--wrap-pbcopy-and-pbpaste" state=present
+  when: ansible_pkg_mgr == "homebrew"
+  tags:
+    - tools
+    - dotfiles
+
+- name: Install dependencies (brew)
+  homebrew: name={{ item }} state=present
+  with_items: "{{ dotfiles.dependenciesBrew }}"
+  when: ansible_pkg_mgr == "homebrew"
+  tags:
+    - tools
+    - dotfiles
+
+- name: Install dependencies (gem)
+  gem: name={{ item }} state=present
+  with_items: "{{ dotfiles.dependenciesGem }}"
+  tags:
+    - tools

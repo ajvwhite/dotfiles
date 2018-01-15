@@ -1,0 +1,53 @@
+---
+- name: Install java 1.8 using homebrew cask
+  homebrew_cask: name="java8" state=present
+  when: ansible_pkg_mgr == "homebrew"
+  tags:
+    - java
+
+- name: Install latest java using homebrew cask
+  homebrew_cask: name="java" state=present
+  when: ansible_pkg_mgr == "homebrew"
+  tags:
+    - java
+
+- name: Install jenv, gradle, maven and groovy (brew)
+  homebrew: name={{ item }} state=present
+  with_items: "{{ java.dependencies }}"
+  when: ansible_pkg_mgr == "homebrew"
+  tags:
+    - java
+
+- name: Enable required jenv plugins
+  shell: eval "$(jenv init -)" && jenv enable-plugin {{ item }}
+  with_items: "{{ jenv.plugins }}"
+  tags:
+    - java
+
+- name: Finding all installed java versions
+  find:
+    paths:
+      - "/Library/Java/JavaVirtualMachines"
+    recurse: "no"
+    file_type: "directory"
+  register: installed_java_dirs
+  tags:
+    - java
+
+- name: Register all java versions with jenv
+  command: "jenv add {{ item.path }}/Contents/Home/"
+  register: jenv_reg_cmd_res
+  failed_when: "jenv_reg_cmd_res.rc != 0 and 'not a valid' in jenv_reg_cmd_res.stdout"
+  with_items: "{{ installed_java_dirs.files }}"
+  tags:
+    - java
+
+- name: Rehash jenv after install of java versions
+  shell: eval "$(jenv init -)" && jenv rehash
+  tags:
+    - java
+
+- name: Set Java 9 as global default for user
+  shell: eval "$(jenv init -)" && jenv global 9.0
+  tags:
+    - java

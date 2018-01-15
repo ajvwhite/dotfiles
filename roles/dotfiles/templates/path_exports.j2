@@ -1,0 +1,11 @@
+# PATH exports
+# Python Framework Include
+PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:$PATH"
+# Brew bin and sbin includes
+PATH="/usr/local/sbin:$PATH"
+PATH="/usr/local/bin:$PATH"
+# Global composer bins
+PATH="{{ ansible_user_dir }}/.composer/vendor/bin:$PATH"
+# Personal bin folder
+PATH="{{ ansible_user_dir }}/bin:$PATH"
+export PATH

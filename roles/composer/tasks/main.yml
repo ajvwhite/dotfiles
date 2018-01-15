@@ -1,0 +1,49 @@
+---
+- name: Install php tap (brew)
+  homebrew_tap: name="homebrew/homebrew-php" state=present
+  when: ansible_pkg_mgr == "homebrew"
+  tags:
+    - tools
+    - composer
+    - php
+    - development
+
+- name: Install composer dependencies (brew)
+  homebrew: name={{ item }} state=present
+  with_items: "{{ composer.dependenciesBrew }}"
+  when: ansible_pkg_mgr == "homebrew"
+  tags:
+    - composer
+    - php
+    - development
+
+- name: Make sure composer folder exists
+  file: path={{ ansible_user_dir}}/.composer state=directory
+  tags:
+    - directorysetup
+    - composer
+    - php
+    - development
+
+- name: Copy config.json file
+  copy: src=./config.json dest={{ ansible_user_dir }}/.composer/config.json
+  tags:
+    - composer
+    - php
+    - development
+
+- name: Copy composer.json file
+  copy: src=./composer.json dest={{ ansible_user_dir }}/.composer/composer.json
+  tags:
+    - composer
+    - php
+    - development
+
+- name: Run composer global install
+  composer:
+    command: install
+    working_dir: "{{ ansible_user_dir }}/.composer"
+  tags:
+    - composer
+    - php
+    - development

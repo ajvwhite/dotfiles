@@ -1,0 +1,57 @@
+desktop:
+  tools:
+    - coreutils
+    - fabric
+    - gd
+    - percona-toolkit
+    - pwgen
+    - python
+    - python3
+    - rbenv
+    - rbenv-default-gems
+    - ruby
+    - socat
+    - gpg
+    - mas
+  pythonTools:
+    - glances
+  applications:
+    - 1password
+    - aerial
+    - appcleaner
+    - bartender
+    - duet
+    - docker
+    - dropbox
+    - firefox
+    - franz
+    - go2shell
+    - google-chrome
+    - iterm2
+    - jetbrains-toolbox
+    - kaleidoscope
+    - sequel-pro
+    - skyfonts
+    - skype
+    - slack
+    - sublime-text
+    - tower
+    - viscosity
+    - wireshark
+  mas_upgrade_all_apps: 0
+  appstore:
+    - { id: 937984704, name: "Amphetamine" }
+    - { id: 931657367, name: "Calcbot" }
+    - { id: 455970963, name: "Disk Doctor" }
+    - { id: 975937182, name: "Fantastical 2" }
+    - { id: 430255202, name: "Mactracker" }
+    - { id: 441258766, name: "Magnet" }
+    - { id: 890031187, name: "Marked 2" }
+    - { id: 1295203466, name: "Microsoft Remote Desktop" }
+    - { id: 639968404, name: "Parcel" }
+    - { id: 407963104, name: "Pixelmator" }
+    - { id: 409907375, name: "Remote Desktop" }
+    - { id: 425955336, name: "Skitch" }
+    - { id: 425424353, name: "The Unarchiver" }
+    - { id: 557168941, name: "Tweetbot" }
+    - { id: 889428659, name: "xScope" }

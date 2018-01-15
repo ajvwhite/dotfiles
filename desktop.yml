@@ -1,0 +1,7 @@
+# This playbook is for getting things which
+# are useful tools and apps on a visual desktop.
+---
+- name: Core tools & apps for visual desktop setups
+  hosts: localhost
+  roles:
+    - desktop

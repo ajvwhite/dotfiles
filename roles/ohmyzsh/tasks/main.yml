@@ -1,0 +1,92 @@
+---
+- name: Installing zsh, git and neofetch dependencies (brew)
+  homebrew: name={{ item }} state=present
+  with_items: "{{ ohmyzsh.dependenciesBrew }}"
+  when: ansible_pkg_mgr == "homebrew"
+  tags:
+    - zsh
+
+- name: check if ~/.zshrc exists
+  stat:
+    path: "{{ ansible_user_dir }}/.zshrc"
+  register: stat_zshrc
+  tags:
+    - zsh
+
+- name: Backing up existing ~/.zshrc
+  copy: src={{ ansible_user_dir }}/.zshrc dest={{ ansible_user_dir }}/.zshrc.orig
+  when: stat_zshrc.stat.exists == True
+  tags:
+    - zsh
+
+- name: check if ~/.zprofile exists
+  stat:
+    path: "{{ ansible_user_dir }}/.zprofile"
+  register: stat_zprofile
+  tags:
+    - zsh
+
+- name: Backing up existing ~/.zprofile
+  copy: src={{ ansible_user_dir }}/.zprofile dest={{ ansible_user_dir }}/.zprofile.orig
+  when: stat_zprofile.stat.exists == True
+  tags:
+    - zsh
+
+- name: Copy zshrc from template
+  template: src="zshrc.j2" dest={{ ansible_user_dir }}/.zshrc
+  tags:
+    - zsh
+
+- name: Cloning oh-my-zsh
+  git:
+    repo=https://github.com/robbyrussell/oh-my-zsh
+    dest={{ ansible_user_dir }}/.oh-my-zsh
+  tags:
+    - zsh
+
+- name: Changing default shell to zsh
+  shell: chsh -s $(grep /zsh$ /etc/shells | tail -1)
+  tags:
+    - zsh
+
+- name: Clone zsh autosuggestions
+  git:
+    repo=https://github.com/zsh-users/zsh-autosuggestions
+    dest={{ ansible_user_dir }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+  tags:
+    - zsh
+    - zshplugins
+
+- name: Ensure .oh-my-zsh/cutom/plugins/heimdall folder exists
+  file: path={{ ansible_user_dir}}/.oh-my-zsh/custom/plugins/heimdall state=directory
+  tags:
+    - zsh
+    - zshplugins
+
+- name: Copy oh-my-zsh custom plugin files
+  copy: src={{ item }} dest={{ ansible_user_dir }}/.oh-my-zsh/custom/plugins/heimdall/{{ item | basename }} mode=ug+rwx,o+rx
+  with_fileglob:
+    - ./heimdall/*
+  tags:
+    - zsh
+    - zshplugins
+
+- name: Ensure custom themes folder exists
+  file: path={{ ansible_user_dir }}/.oh-my-zsh/custom/themes mode=0755 state=directory
+  tags:
+    - zsh
+    - zshthemes
+
+- name: Ensure powerlevel9k theme folder exists
+  file: path={{ ansible_user_dir }}/.oh-my-zsh/custom/themes/powerlevel9k mode=0755 state=directory
+  tags:
+    - zsh
+    - zshthemes
+
+- name: Clone prowerlevel9k theme
+  git:
+    repo=https://github.com/bhilburn/powerlevel9k.git
+    dest={{ ansible_user_dir }}/.oh-my-zsh/custom/themes/powerlevel9k
+  tags:
+    - zsh
+    - zshthemes
