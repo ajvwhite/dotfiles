@@ -1,5 +1,6 @@
 desktop:
   tools:
+    - brew-cask-completion
     - coreutils
     - fabric
     - gd
@@ -11,7 +12,6 @@ desktop:
     - rbenv-default-gems
     - ruby
     - socat
-    - gpg
     - mas
   pythonTools:
     - glances
@@ -27,6 +27,7 @@ desktop:
     - franz
     - go2shell
     - google-chrome
+    - gpg-suite
     - iterm2
     - jetbrains-toolbox
     - kaleidoscope

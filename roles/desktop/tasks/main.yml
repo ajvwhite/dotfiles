@@ -1,11 +1,4 @@
 ---
-- name: Install useful command line desktop tools (brew)
-  homebrew: name={{ item }} state=present
-  with_items: "{{ desktop.tools }}"
-  when: ansible_pkg_mgr == "homebrew"
-  tags:
-    - tools
-
 - name: Install brew cask tap (brew)
   homebrew_tap: name="caskroom/cask" state=present
   when: ansible_pkg_mgr == "homebrew"
@@ -21,6 +14,13 @@
     - tools
     - applications
     - java
+
+- name: Install useful command line desktop tools (brew)
+  homebrew: name={{ item }} state=present
+  with_items: "{{ desktop.tools }}"
+  when: ansible_pkg_mgr == "homebrew"
+  tags:
+    - tools
 
 - name: Install python tools
   pip: name={{ item }} state=present
