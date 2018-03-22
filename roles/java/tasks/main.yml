@@ -48,13 +48,13 @@
     - java
 
 - name: Get latest oracle java version available
-  shell: jenv versions | grep -o 'oracle64-[0-9].[0-9].[0-9]\.*[0-9]*' | sort -r -n -t - -k 2 | head -n 1
+  shell: jenv versions | grep -o 'oracle64-[0-9]\.*[0-9]*\.*[0-9]*\.*[0-9]*' | sort -r -n -t - -k 2 | head -n 1
   register: jenv_latest_oracle_ver
   failed_when: jenv_latest_oracle_ver.stdout == ""
   tags:
     - java
 
-- name: Set Java 9 as global default for user
+- name: Set latest Java version as global default for user
   shell: eval "$(jenv init -)" && jenv global {{ jenv_latest_oracle_ver.stdout }}
   tags:
     - java
