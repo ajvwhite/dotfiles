@@ -1,6 +1,6 @@
 ---
 - name: Install brew cask tap (brew)
-  homebrew_tap: name="caskroom/cask" state=present
+  homebrew_tap: name="homebrew/cask" state=present
   when: ansible_pkg_mgr == "homebrew"
   tags:
     - tools
@@ -8,7 +8,7 @@
     - java
 
 - name: Install brew cask tap versions (brew)
-  homebrew_tap: name="caskroom/versions" state=present
+  homebrew_tap: name="homebrew/cask-versions" state=present
   when: ansible_pkg_mgr == "homebrew"
   tags:
     - tools
