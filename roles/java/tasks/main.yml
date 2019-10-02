@@ -1,12 +1,12 @@
 ---
-- name: Install java 1.8 using homebrew cask
-  homebrew_cask: name="java8" state=present
+- name: Install latest java using homebrew cask
+  homebrew_cask: name="java" state=present
   when: ansible_pkg_mgr == "homebrew"
   tags:
     - java
 
-- name: Install latest java using homebrew cask
-  homebrew_cask: name="java" state=present
+- name: Install openjdk java 8 using homebrew cask
+  homebrew_cask: name="adoptopenjdk8" state=present
   when: ansible_pkg_mgr == "homebrew"
   tags:
     - java
@@ -19,7 +19,7 @@
     - java
 
 - name: Enable required jenv plugins
-  shell: eval "$(jenv init -)" && jenv enable-plugin {{ item }}
+  shell: eval "$(jenv init -)" && eval "$(jenv enable-plugin {{ item }})"
   with_items: "{{ jenv.plugins }}"
   tags:
     - java
@@ -48,7 +48,7 @@
     - java
 
 - name: Get latest oracle java version available
-  shell: jenv versions | grep -o 'oracle64-[0-9]\.*[0-9]*\.*[0-9]*\.*[0-9]*' | sort -r -n -t - -k 2 | head -n 1
+  shell: jenv versions | grep -o 'openjdk64-[0-9]\.*[0-9]*\.*[0-9]*\.*[0-9]*' | sort -r -n -t - -k 2 | head -n 1
   register: jenv_latest_oracle_ver
   failed_when: jenv_latest_oracle_ver.stdout == ""
   tags:
