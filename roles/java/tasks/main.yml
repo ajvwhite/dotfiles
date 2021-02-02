@@ -1,13 +1,25 @@
 ---
-- name: Install latest java using homebrew cask
-  homebrew_cask: name="java" state=present
+- name: Install latest java using homebrew
+  homebrew: name="java" state=present
   when: ansible_pkg_mgr == "homebrew"
   tags:
     - java
 
-- name: Install openjdk java 8 using homebrew cask
-  homebrew_cask: name="adoptopenjdk8" state=present
+- name: Register openjdk java with System java versions (escalated)
+  shell: ln -sfn /usr/local/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
+  become: yes
+  tags:
+    - java
+
+- name: Install OpenJDK 8 using homebrew
+  homebrew: name="openjdk@8" state=present
   when: ansible_pkg_mgr == "homebrew"
+  tags:
+    - java
+
+- name: Register openjdk@8 java with System java versions (escalated)
+  shell: ln -sfn /usr/local/opt/openjdk@8/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-8.jdk
+  become: yes
   tags:
     - java
 
@@ -29,7 +41,7 @@
     paths:
       - "/Library/Java/JavaVirtualMachines"
     recurse: "no"
-    file_type: "directory"
+    file_type: "any"
   register: installed_java_dirs
   tags:
     - java

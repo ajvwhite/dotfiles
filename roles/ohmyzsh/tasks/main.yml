@@ -90,3 +90,17 @@
   tags:
     - zsh
     - zshthemes
+
+- name: Install brew cask tap cask-fonts (brew)
+  homebrew_tap: name="homebrew/cask-fonts" state=present
+  when: ansible_pkg_mgr == "homebrew"
+  tags:
+    - zsh
+    - zshthemes
+
+- name: Install meslo lg nerd font using homebrew cask fonts
+  homebrew: name="font-meslo-lg-nerd-font" state=present
+  when: ansible_pkg_mgr == "homebrew"
+  tags:
+    - zsh
+    - zshthemes

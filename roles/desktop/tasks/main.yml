@@ -76,6 +76,6 @@
     - applications
 
 - name: Install user image from Gravatar
-  get_url: url=https://s.gravatar.com/avatar/014ba7beb013a1d560e5fd5eaaca3775?s=100 dest=~/.face
+  get_url: url=https://www.gravatar.com/avatar/dee22cf035561c65105565224f82cf43?s=100 dest=~/.face
   tags:
     - usersettings

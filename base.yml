@@ -3,6 +3,10 @@
 ---
 - name: Base setup
   hosts: localhost
+  vars_prompt:
+    - name: "ansible_become_pass"
+      prompt: "Please enter sudo password for command escalation"
+      private: yes
   roles:
     - dotfiles
     - ohmyzsh

@@ -59,11 +59,6 @@
     - files
     - binfiles
 
-- name: Ensure ~/dev-projects folder exists
-  file: path={{ ansible_user_dir}}/dev-projects state=directory
-  tags:
-    - directorysetup
-
 - name: Copy bin/ files
   copy: src={{ item }} dest={{ ansible_user_dir }}/bin/{{ item | basename }} mode=ug+rwx,o+rx
   with_fileglob:
@@ -78,8 +73,8 @@
     - files
     - dotfiles
 
-- name: Install reattach-to-user-namespace --wrap-pbcopy-and-pbpaste
-  homebrew: name="reattach-to-user-namespace" install_options="--wrap-pbcopy-and-pbpaste" state=present
+- name: Install reattach-to-user-namespace
+  homebrew: name="reattach-to-user-namespace" state=present
   when: ansible_pkg_mgr == "homebrew"
   tags:
     - tools

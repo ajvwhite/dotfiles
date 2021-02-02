@@ -1,4 +1,4 @@
 composer:
   dependenciesBrew:
-    - php71
+    - php
     - composer

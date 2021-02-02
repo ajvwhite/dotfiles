@@ -4,5 +4,4 @@ dotfiles:
     - ack
     - links
     - tmux
-    - tmux-cssh
     - rlwrap
