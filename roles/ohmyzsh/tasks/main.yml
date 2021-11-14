@@ -1,5 +1,5 @@
 ---
-- name: Installing zsh, git and neofetch dependencies (brew)
+- name: Installing git and neofetch dependencies (brew)
   homebrew: name={{ item }} state=present
   with_items: "{{ ohmyzsh.dependenciesBrew }}"
   when: ansible_pkg_mgr == "homebrew"
@@ -41,11 +41,6 @@
   git:
     repo=https://github.com/robbyrussell/oh-my-zsh
     dest={{ ansible_user_dir }}/.oh-my-zsh
-  tags:
-    - zsh
-
-- name: Changing default shell to zsh
-  shell: chsh -s $(grep /zsh$ /etc/shells | tail -1)
   tags:
     - zsh
 
@@ -100,7 +95,7 @@
 
 - name: Install meslo lg nerd font using homebrew cask fonts
   homebrew: name="font-meslo-lg-nerd-font" state=present
-  when: ansible_pkg_mgr == "homebrew"
+  when: ansible_pkg_mgr == "homebrew_cask"
   tags:
     - zsh
     - zshthemes

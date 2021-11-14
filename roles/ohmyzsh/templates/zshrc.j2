@@ -6,10 +6,6 @@ export DEFAULT_USER={{ lookup('env','USER') }}
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-#ZSH_THEME="robbyrussell"
-#ZSH_THEME="half-life"
-#ZSH_THEME="agnoster"
-#ZSH_THEME="spaceship"
 POWERLEVEL9K_MODE='awesome-fontconfig'
 ZSH_THEME="powerlevel9k/powerlevel9k"
 
@@ -55,7 +51,7 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git composer common-aliases docker phing osx sudo zsh-autosuggestions z)
+plugins=(git composer common-aliases docker phing macos sudo zsh-autosuggestions z)
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -131,6 +127,15 @@ POWERLEVEL9K_SHORTEN_DELIMITER='..'
 
 if [ -d ~/.fonts ]; then
     source ~/.fonts/*.sh
+fi
+
+if [ -f ~/bin/git-completion.bash ]; then
+    if [ -f ~/bin/_git ]; then
+        zstyle ':completion:*:*:git:*' script ~/.zsh/git-completion.bash
+        fpath=(~/.zsh $fpath)
+
+        autoload -Uz compinit && compinit
+    fi
 fi
 
 # Load Ruby env if it exists

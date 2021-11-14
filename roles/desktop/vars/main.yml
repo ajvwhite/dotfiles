@@ -2,18 +2,8 @@ desktop:
   tools:
     - brew-cask-completion
     - coreutils
-    - fabric
-    - gd
-    - percona-toolkit
     - pwgen
-    - python
-    - rbenv
-    - rbenv-default-gems
-    - ruby
-    - socat
     - mas
-  pythonTools:
-    - glances
   applications:
     - 1password
     - aerial
@@ -29,7 +19,6 @@ desktop:
     - kaleidoscope
     - sequel-pro
     - skype
-    - slack
     - sublime-text
     - tower
     - viscosity

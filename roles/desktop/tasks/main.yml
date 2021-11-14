@@ -22,13 +22,6 @@
   tags:
     - tools
 
-- name: Install python tools
-  pip: name={{ item }} state=present
-  with_items: "{{ desktop.pythonTools }}"
-  tags:
-    - tools
-    - python
-
 - name: Install useful desktop applications (brew cask)
   homebrew_cask: name={{ item }} state=present
   with_items: "{{ desktop.applications }}"
@@ -38,15 +31,6 @@
 
 - name: Ensure MAS is installed
   homebrew: name=mas state=present
-  tags:
-    - appstore
-    - applications
-
-- name: Get MAS account status
-  shell: 'mas account'
-  register: mas_account_result
-  failed_when: mas_account_result.rc > 1
-  changed_when: false
   tags:
     - appstore
     - applications

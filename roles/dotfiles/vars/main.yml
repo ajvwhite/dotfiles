@@ -1,7 +1,4 @@
 dotfiles:
   dependenciesBrew:
     - bash-completion
-    - ack
     - links
-    - tmux
-    - rlwrap

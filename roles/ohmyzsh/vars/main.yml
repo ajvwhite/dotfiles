@@ -1,5 +1,4 @@
 ohmyzsh:
   dependenciesBrew:
-    - zsh
     - git
     - neofetch
